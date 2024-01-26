@@ -12,7 +12,7 @@ AND
     lpep_dropoff_datetime < ('2019-09-19 00:00:00');
 
 -- Question 4. Largest trip for each day
--- Which was the pick up day with
+-- Which was the pick up day with the largest trip distance Use the pick up time for your calculations.
 SELECT 
 	DATE(lpep_pickup_datetime),
 	SUM(trip_distance)
