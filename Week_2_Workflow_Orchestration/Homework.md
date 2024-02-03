@@ -118,4 +118,215 @@ Once the dataset is loaded, what's the shape of the data?
 
 <img width="737" alt="Screenshot 2024-02-01 at 20 12 16" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/d6520e4c-f8d5-4a99-81c7-8e0576c73e60">
 
+```
+"""
+                    DATA TRANSFORMER
+"""
+import re
+if 'transformer' not in globals():
+    from mage_ai.data_preparation.decorators import transformer
+if 'test' not in globals():
+    from mage_ai.data_preparation.decorators import test
 
+def camel_to_snake(name):
+    """
+    Convert Camel Case to Snake Case.
+    """
+    name = re.sub('([a-z0-9])([A-Z])', r'\1_\2', name)
+    return name.lower()
+
+@transformer
+def transform(data, *args, **kwargs):
+    """
+    Template code for a transformer block.
+
+    Add more parameters to this function if this block has multiple parent blocks.
+    There should be one parameter for each output variable from each parent block.
+
+    Args:
+        data: The output from the upstream parent block
+        args: The output from any additional upstream blocks (if applicable)
+
+    Returns:
+        Anything (e.g. data frame, dictionary, array, int, str, etc.)
+    """
+    # Specify your transformation logic here
+
+    # Transformer block
+    # Remove rows where passenger count or trip distance is zero
+    data = data[(data['passenger_count'] > 0) & (data['trip_distance'] > 0)]
+        
+    # Create a new column lpep_pickup_date by converting lpep_pickup_datetime to a date
+    data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt.date
+
+    # Rename columns from Camel Case to Snake Case
+    # Determine the columns requiring renaming
+    columns_before = data.columns
+    columns_after = [camel_to_snake(col) for col in data.columns]
+
+    columns_to_rename = [col_before for col_before, col_after in zip(columns_before, columns_after) if col_before != col_after]
+
+# Count the number of columns to be renamed
+    num_columns_to_rename = len(columns_to_rename)
+
+    print(f"Number of columns to be renamed: {num_columns_to_rename}")
+    print("Columns to be renamed:", columns_to_rename)
+
+    data.columns = [camel_to_snake(col) for col in data.columns]
+    
+    #finding existing values of vendor_id in the dataset
+
+    print("Existing values of VendorID:", data['vendor_id'].unique())
+   
+        
+    return data
+
+
+@test
+def test_output(output, *args):
+    """
+    Template code for testing the output of the block.
+    """
+    # Assertions
+    assert (output['vendor_id'].isin([1, 2])).all(), "Assertion Error: vendor_id is not one of the existing values."
+    assert (output['passenger_count'] > 0).all(), "Assertion Error: passenger_count is not greater than 0."
+    assert (output['trip_distance'] > 0).all(), "Assertion Error: trip_distance is not greater than 0."
+
+```
+## Question 2. Data Transformation
+
+Upon filtering the dataset where the passenger count is greater than 0 _and_ the trip distance is greater than zero, how many rows are left?
+
+* 544,897 rows
+* 266,855 rows
+* **139,370 rows**
+* 266,856 rows
+
+## Question 3. Data Transformation
+
+Which of the following creates a new column `lpep_pickup_date` by converting `lpep_pickup_datetime` to a date?
+
+* `data = data['lpep_pickup_datetime'].date`
+* `data('lpep_pickup_date') = data['lpep_pickup_datetime'].date`
+* **`data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt.date`**
+* `data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt().date()`
+
+<img width="733" alt="Screenshot 2024-02-01 at 20 22 45" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/3bf1c048-968d-466f-99c2-734d27a6a8fb">
+
+
+## Question 4. Data Transformation
+​
+What are the existing values of `VendorID` in the dataset?
+​
+* 1, 2, or 3
+* **1 or 2**
+* 1, 2, 3, 4
+* 1
+​
+## Question 5. Data Transformation
+​
+How many columns need to be renamed to snake case?
+​
+* 3
+* 6
+* 2
+* **4**
+<img width="739" alt="Screenshot 2024-02-01 at 20 29 05" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/8bff24a9-75b5-470f-807b-987985c81096">
+
+
+ ```
+"""
+            DATA EXPORTER TO POSTGRES
+"""
+from mage_ai.settings.repo import get_repo_path
+from mage_ai.io.config import ConfigFileLoader
+from mage_ai.io.postgres import Postgres
+from pandas import DataFrame
+from os import path
+
+if 'data_exporter' not in globals():
+    from mage_ai.data_preparation.decorators import data_exporter
+
+
+@data_exporter
+def export_data_to_postgres(df: DataFrame, **kwargs) -> None:
+    """
+    Template for exporting data to a PostgreSQL database.
+    Specify your configuration settings in 'io_config.yaml'.
+
+    Docs: https://docs.mage.ai/design/data-loading#postgresql
+    """
+    schema_name = 'mage'  # Specify the name of the schema to export data to
+    table_name = 'green_taxi'  # Specify the name of the table to export data to
+    config_path = path.join(get_repo_path(), 'io_config.yaml')
+    config_profile = 'dev'
+
+    with Postgres.with_config(ConfigFileLoader(config_path, config_profile)) as loader:
+        loader.export(
+            df,
+            schema_name,
+            table_name,
+            index=False,  # Specifies whether to include index in exported table
+            if_exists='replace',  # Specify resolution policy if table name already exists
+        )
+```
+```
+"""
+        DATA LOADER FROM POSTGRES
+"""
+
+-- Docs: https://docs.mage.ai/guides/sql-blocks
+SELECT *
+FROM mage.green_taxi
+LIMIT 10;
+```
+<img width="735" alt="Screenshot 2024-02-01 at 20 36 31" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/b5c0cd27-0c0f-45ac-8445-94ac07529f4e">
+
+
+```
+"""
+            DATA EXPORTER TO GOOGLE CLOUD STORAGE
+"""
+import pyarrow as pa
+import pyarrow.parquet as pq 
+import os 
+
+if 'data_exporter' not in globals():
+    from mage_ai.data_preparation.decorators import data_exporter
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/src/dtc-de-course-380621-f9524e48f9c0.json"
+
+
+bucket_name = 'meme_mage_zoomcamp'
+project_id = 'dtc-de-course-380621'
+
+table_name = 'green_taxi'
+
+root_path = f'{bucket_name}/{table_name}'
+
+
+
+@data_exporter
+def export_data(data, *args, **kwargs):
+
+    table = pa.Table.from_pandas(data)
+
+    gcs = pa.fs.GcsFileSystem()
+
+    pq.write_to_dataset(
+        table,
+        root_path=root_path,
+        partition_cols=['lpep_pickup_date'],
+        filesystem=gcs
+    )
+```
+
+## Question 6. Data Exporting
+
+Once exported, how many partitions (folders) are present in Google Cloud?
+
+* **96**
+* 56
+* 67
+* 108
+<img width="925" alt="Screenshot 2024-02-01 at 20 35 20" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/c23a8d42-4c1a-403c-aeed-d5d584dc4404">
