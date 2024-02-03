@@ -115,4 +115,7 @@ Once the dataset is loaded, what's the shape of the data?
 * 544,898 rows x 20 columns
 * 133,744 rows x 20 columns
 
-  ![image.png](attachment:9eb4e0b7-0449-4506-a935-2ec55691dc62.png)
+
+<img width="737" alt="Screenshot 2024-02-01 at 20 12 16" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/d6520e4c-f8d5-4a99-81c7-8e0576c73e60">
+
+
