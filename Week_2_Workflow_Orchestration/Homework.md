@@ -107,3 +107,12 @@ def test_output(output, *args) -> None:
     assert output is not None, 'The output is undefined'
 
 ```
+## Question 1. Data Loading
+Once the dataset is loaded, what's the shape of the data?
+
+* **266,855 rows x 20 columns**
+* 544,898 rows x 18 columns
+* 544,898 rows x 20 columns
+* 133,744 rows x 20 columns
+
+  ![image.png](attachment:9eb4e0b7-0449-4506-a935-2ec55691dc62.png)
