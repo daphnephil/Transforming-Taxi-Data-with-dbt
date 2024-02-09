@@ -110,7 +110,7 @@ def test_output(output, *args) -> None:
 ## Question 1. Data Loading
 Once the dataset is loaded, what's the shape of the data?
 
-* **266,855 rows x 20 columns**
+- [x] 266,855 rows x 20 columns
 * 544,898 rows x 18 columns
 * 544,898 rows x 20 columns
 * 133,744 rows x 20 columns
@@ -199,7 +199,7 @@ Upon filtering the dataset where the passenger count is greater than 0 _and_ the
 
 * 544,897 rows
 * 266,855 rows
-* **139,370 rows**
+- [x] 139,370 rows
 * 266,856 rows
 
 ## Question 3. Data Transformation
@@ -208,7 +208,7 @@ Which of the following creates a new column `lpep_pickup_date` by converting `lp
 
 * `data = data['lpep_pickup_datetime'].date`
 * `data('lpep_pickup_date') = data['lpep_pickup_datetime'].date`
-* **`data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt.date`**
+- [x] `data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt.date`
 * `data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt().date()`
 
 <img width="733" alt="Screenshot 2024-02-01 at 20 22 45" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/3bf1c048-968d-466f-99c2-734d27a6a8fb">
@@ -219,7 +219,7 @@ Which of the following creates a new column `lpep_pickup_date` by converting `lp
 What are the existing values of `VendorID` in the dataset?
 ​
 * 1, 2, or 3
-* **1 or 2**
+- [x] 1 or 2
 * 1, 2, 3, 4
 * 1
 ​
@@ -230,7 +230,7 @@ How many columns need to be renamed to snake case?
 * 3
 * 6
 * 2
-* **4**
+- [x] 4
 <img width="739" alt="Screenshot 2024-02-01 at 20 29 05" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/8bff24a9-75b5-470f-807b-987985c81096">
 
 
@@ -325,7 +325,7 @@ def export_data(data, *args, **kwargs):
 
 Once exported, how many partitions (folders) are present in Google Cloud?
 
-* **96**
+- [x] 96
 * 56
 * 67
 * 108
