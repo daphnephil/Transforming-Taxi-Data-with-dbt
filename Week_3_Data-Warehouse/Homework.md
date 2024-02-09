@@ -15,7 +15,7 @@ Create a table in BQ using the Green Taxi Trip Records for 2022 (do not partitio
 ## Question 1:
 Question 1: What is count of records for the 2022 Green Taxi Data??
 - 65,623,481
-- 840,402
+- [x] 840,402
 - 1,936,423
 - 253,647
 
