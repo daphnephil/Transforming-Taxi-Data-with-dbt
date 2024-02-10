@@ -25,10 +25,14 @@ Question 1: What is count of records for the 2022 Green Taxi Data??
 Write a query to count the distinct number of PULocationIDs for the entire dataset on both the tables.</br> 
 What is the estimated amount of data that will be read when this query is executed on the External Table and the Table?
 
-- 0 MB for the External Table and 6.41MB for the Materialized Table
+- [x] 0 MB for the External Table and 6.41MB for the Materialized Table
 - 18.82 MB for the External Table and 47.60 MB for the Materialized Table
 - 0 MB for the External Table and 0MB for the Materialized Table
 - 2.14 MB for the External Table and 0MB for the Materialized Table
+
+<img width="1328" alt="Screenshot 2024-02-10 at 23 31 55" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/b69ae152-151a-41ab-a1e4-5febc730f34a">
+
+<img width="1332" alt="Screenshot 2024-02-10 at 23 32 42" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/f74dcf6c-51bd-4611-b90a-98ee52e07cf5">
 
 
 ## Question 3:
@@ -36,12 +40,13 @@ How many records have a fare_amount of 0?
 - 12,488
 - 128,219
 - 112
-- 1,622
+- [x] 1,622
+<img width="1317" alt="Screenshot 2024-02-10 at 23 36 39" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/b720a017-a310-4825-83f0-49283c42d4b9">
 
 ## Question 4:
 What is the best strategy to make an optimized table in Big Query if your query will always order the results by PUlocationID and filter based on lpep_pickup_datetime? (Create a new table with this strategy)
 - Cluster on lpep_pickup_datetime Partition by PUlocationID
-- Partition by lpep_pickup_datetime  Cluster on PUlocationID
+- [x] Partition by lpep_pickup_datetime  Cluster on PUlocationID
 - Partition by lpep_pickup_datetime and Partition by PUlocationID
 - Cluster on by lpep_pickup_datetime and Cluster on PUlocationID
 
@@ -54,16 +59,20 @@ Use the materialized table you created earlier in your from clause and note the 
 Choose the answer which most closely matches.</br> 
 
 - 22.82 MB for non-partitioned table and 647.87 MB for the partitioned table
-- 12.82 MB for non-partitioned table and 1.12 MB for the partitioned table
+- [x] 12.82 MB for non-partitioned table and 1.12 MB for the partitioned table
 - 5.63 MB for non-partitioned table and 0 MB for the partitioned table
 - 10.31 MB for non-partitioned table and 10.31 MB for the partitioned table
+
+<img width="1329" alt="Screenshot 2024-02-10 at 23 56 56" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/99a0bba2-1884-4220-ad36-e933dc8a5d1b">
+
+<img width="1328" alt="Screenshot 2024-02-10 at 23 57 44" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/de42e501-4171-4997-b359-d0376e7f75b6">
 
 
 ## Question 6: 
 Where is the data stored in the External Table you created?
 
 - Big Query
-- GCP Bucket
+- [x] GCP Bucket
 - Big Table
 - Container Registry
 
@@ -71,8 +80,14 @@ Where is the data stored in the External Table you created?
 ## Question 7:
 It is best practice in Big Query to always cluster your data:
 - True
-- False
+- [x] False
 
 
 ## (Bonus: Not worth points) Question 8:
 No Points: Write a `SELECT count(*)` query FROM the materialized table you created. How many bytes does it estimate will be read? Why?
+
+- [x] 0B because since the table is already partitioned and clustered it skips scanning the full table.
+<img width="1328" alt="Screenshot 2024-02-11 at 00 07 09" src="https://github.com/daphnephil/Data-Engineering-Zoomcamp/assets/62921301/661a6d79-a30c-4ccd-aefc-6273637b6e09">
+
+
+
